@@ -1,0 +1,19 @@
+package Test;
+
+import Game.*;
+import Pieces.*;
+import org.junit.Test;
+
+public class BoardTest{
+	
+	@Test
+	public void testBoardSize() throws Exception{
+		
+		ChessGame game = new ChessGame();
+		
+		assertEquals(game.board.getWidth(), 8);
+        assertEquals(game.board..getHeight(), 8);
+		
+	}
+	
+}

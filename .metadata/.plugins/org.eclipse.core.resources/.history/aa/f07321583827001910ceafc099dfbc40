@@ -1,0 +1,19 @@
+package Pieces;
+
+//import ChessGame.*;
+
+public class Rook extends Piece{
+	
+	/**
+     * Constructor for Rook.
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public Rook(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.rook;
+	}
+
+
+}

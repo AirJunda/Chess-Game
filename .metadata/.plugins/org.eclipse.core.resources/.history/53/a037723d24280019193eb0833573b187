@@ -1,0 +1,16 @@
+package Test;
+
+import Game.*;
+import Pieces.*;
+import org.junit.Test;
+
+public class BoardTest{
+	
+	@Test
+	public void testInitPieces() throws Exception{
+		
+		ChessGame game = new ChessGame();
+		
+	}
+	
+}

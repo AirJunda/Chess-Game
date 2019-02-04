@@ -1,0 +1,17 @@
+package Pieces;
+
+public class King extends Piece{
+	
+	/**
+     * Constructor for King
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public King(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.king;
+	}
+
+
+}

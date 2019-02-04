@@ -1,0 +1,29 @@
+package Pieces;
+
+public abstract class Piece {
+	
+	public enum Color{
+        white, black
+    }
+    public enum Type{
+        rook, bishop, knight, king, queen, pawn,destroyer, spike
+    }
+    
+    public int x,y;
+    public Color color;
+    public Type type;
+	
+	/**
+     * Constructor for a Piece.
+     * @param x: the x location of the Piece
+     * @param y: the y location of the Piece
+     * @param color: the Player object associated with the Piece
+     */
+	public Piece(int x, int y, Color color){
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
+	
+	
+}

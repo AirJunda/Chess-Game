@@ -1,0 +1,17 @@
+package Pieces;
+
+public class Queen extends Piece{
+	
+	/**
+     * Constructor for Queen.
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public Queen(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.queen;
+	}
+
+
+}

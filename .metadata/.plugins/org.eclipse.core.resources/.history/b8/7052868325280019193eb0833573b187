@@ -1,0 +1,34 @@
+package Test;
+
+import Game.*;
+import Pieces.*;
+import org.junit.Test;
+
+public class BoardTest{
+	
+	@Test
+	public void testInitPieces() throws Exception{
+		
+		ChessGame game = new ChessGame();
+		
+		// test if the board size is 8*8
+		assertEquals(game.board.getWidth(), 8);
+        assertEquals(game.board.getHeight(), 8);
+        
+        // test player color 
+        for(int j = 0; j < 8; j++){
+            for(int i = 0; i < 2; i++){
+                assertEquals(game.board.getPiece(i,j).getColor(), Piece.Color.black);
+            }
+            for(int i = 6; i < 8; i++){
+                assertEquals(game.board.getPiece(i,j).getColor(), Piece.Color.white);
+            }
+        }
+        
+        // test 
+		
+	}
+	
+
+	
+}

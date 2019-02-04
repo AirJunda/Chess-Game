@@ -1,0 +1,101 @@
+package Game;
+
+import Pieces.*;
+
+public class Board{
+	
+	public int height, width;
+	public Piece[][] board;
+	
+	/**
+     * Constructor for a Board.
+     * @param height: the height of the board
+     * @param width: the width of the board
+     * @param color: the Player object associated with the Piece
+     */
+	public Board(int height, int width) {
+		this.height = height;
+		this.width = width;
+		board = new Piece[height][width];
+		
+	}
+	
+	public void initPieces() {
+		
+		for (int i = 0; i < height; i++){
+	    	 for (int j = 0; j < width; j++){
+	    		 board[i][j] = null;
+	         }
+	     }
+		
+		board[0][0] = new Rook(0,0,Piece.Color.black);
+	    board[0][7] = new Rook(0,7,Piece.Color.black);
+	    board[7][0] = new Rook(7,0,Piece.Color.white);
+	    board[7][7] = new Rook(7,7,Piece.Color.white);
+	    
+	    board[0][2] = new Bishop(0,2,Piece.Color.black);
+	    board[0][5] = new Bishop(0,5,Piece.Color.black);
+	    board[7][2] = new Bishop(7,2,Piece.Color.white);
+	    board[7][5] = new Bishop(7,5,Piece.Color.white);
+
+	    board[0][1] = new Knight(0,1,Piece.Color.black);
+	    board[0][6] = new Knight(0,6,Piece.Color.black);
+	    board[7][1] = new Knight(7,1,Piece.Color.white);
+	    board[7][6] = new Knight(7,6,Piece.Color.white);
+
+	    board[0][4] = new King(0,4,Piece.Color.black);
+	    board[7][4] = new King(7,4,Piece.Color.white);
+
+	    board[0][3] = new Queen(0,3,Piece.Color.black);
+	    board[7][3] = new Queen(7,3,Piece.Color.white);
+     
+	    for (int i = 0; i < 8; i++) {
+	    	board[1][i] = new Pawn(1,i,Piece.Color.black);
+	    	board[6][i] = new Pawn(6,i,Piece.Color.white);
+	    }
+	}
+	
+	/**
+     * Getter for board
+     * @return the board configuration
+     */
+    public Piece[][] getBoard() {
+        return board;
+    }
+   
+    /**
+     * Get board height
+     * @return height
+     */
+    public int getHeight(){
+        return height;
+    }
+    
+    /**
+     * Get board width
+     *@return width
+     */
+    public int getWidth(){
+        return width;
+    }
+
+    /**
+     * Set board height
+     * @param height
+     */
+    public void setHeight(int height){
+        this.height = height;
+    }
+    
+    /**
+     * Set board width
+     * @param width
+     */
+    public void setWidth(int width){
+        this.width = width;
+    }
+
+ 
+}
+
+
