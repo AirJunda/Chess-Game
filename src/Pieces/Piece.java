@@ -77,7 +77,8 @@ public abstract class Piece {
       */
      public void move(Board board, int nx, int ny){
          if(board.isValidMove(this, nx, ny) && isValidMoveType(board, nx, ny)){
-             board.removePiece(nx, ny);
+        	 System.out.println("valid movement");
+        	 //board.removePiece(nx, ny);
              board.replacePiece(this, nx, ny);
          }
          else

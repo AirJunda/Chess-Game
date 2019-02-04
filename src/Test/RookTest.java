@@ -15,11 +15,12 @@ public class RookTest{
        
 		// when a player tries to move a piece to an empty space on the board
 		Rook r = new Rook(0,0,Piece.Color.white);
-		r.move(board, 4, 4);  // empty originally
+		r.move(board, 4, 0);  // empty space originally
 		
 		assertEquals(board.getPiece(0, 0), null);
-		assertEquals(board.getPiece(4, 4).getType(), Piece.Type.rook);
-		assertEquals(board.getPiece(4, 4).getColor(), Piece.Color.black);
+		assertEquals(board.getPiece(4, 0), r);
+		assertEquals(board.getPiece(4, 0).getType(), Piece.Type.rook);
+		assertEquals(board.getPiece(4, 0).getColor(), Piece.Color.white);
 	}
 	
 	
@@ -33,6 +34,7 @@ public class RookTest{
 		p.move(game.board, 9, 9);  
 		
 		// Piece not moved
+		assertEquals(game.board.getPiece(0, 0), p);
 		assertEquals(game.board.getPiece(0, 0).getType(), Piece.Type.rook);
 		assertEquals(game.board.getPiece(0, 0).getColor(), Piece.Color.black);
 		

@@ -17,7 +17,7 @@ public class ChessGame{
      * @param width: the width of the board
      * @return return the ChessGame object
      */
-	public void chessGame() {
+	public ChessGame() {
 		initGame();
 	}
 	

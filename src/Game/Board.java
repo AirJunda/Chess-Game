@@ -121,9 +121,7 @@ public class Board{
      * @param y: y location
      */
     public void setPiece(Piece nPiece, int x, int y){
-        if(!isOccupied(x, y)){
-            board[x][y] = nPiece;
-        }
+    	board[x][y] = nPiece;
     }
     
     /**
@@ -142,8 +140,8 @@ public class Board{
     /**
      * Replace a piece to a new specified location
      * @param piece: replacing piece 
-     * @param x: x location
-     * @param y: y location
+     * @param nx: new x location
+     * @param ny: new y location
      */
     public void replacePiece(Piece piece, int nx, int ny){
     	int x = piece.x;

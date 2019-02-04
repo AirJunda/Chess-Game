@@ -4,8 +4,6 @@ import Game.*;
 import Pieces.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
-//import java.lang.AssertionError;
-//import java.io.*;
 
 public class BoardTest{
 	
@@ -91,10 +89,8 @@ public class BoardTest{
 	public void testFirstPlayer() throws Exception{
 		
 		ChessGame game = new ChessGame();
-	    assertEquals(game.getPlayer(), ChessGame.Player.playerWhite);
+	    assertEquals(game.getPlayer(),ChessGame.Player.playerWhite);
 	}
-	
-	
 	
 	
 }
