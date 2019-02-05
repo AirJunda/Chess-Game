@@ -69,6 +69,19 @@ public abstract class Piece {
          this.type = type;
      }
      
+     /**
+      * Check whether a piece can move to specified location
+      * @param board : the current board
+      * @param nx : new x location
+      * @param ny : new y location
+      * @return whether can move
+      */
+     public boolean canMove(Board board, int nx, int ny) {
+    	 if(board.isValidMove(this, nx, ny) && isValidMoveType(board, nx, ny)){
+    		 return true;
+    	 }
+    	 return false;
+     }
 
      /**
       * Move the piece
@@ -77,7 +90,7 @@ public abstract class Piece {
       * @param ny : the new y location
       */
      public void move(Board board, int nx, int ny){
-         if(board.isValidMove(this, nx, ny) && isValidMoveType(board, nx, ny)){
+    	 if (canMove(board,nx,ny)) {
         	 System.out.printf("Valid movement: Move to %d, %d\n",nx,ny);
              board.replacePiece(this, nx, ny);
          }

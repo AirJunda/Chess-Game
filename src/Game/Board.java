@@ -1,5 +1,6 @@
 package Game;
 
+import Game.ChessGame.Player;
 import Pieces.*;
 
 public class Board{
@@ -234,6 +235,139 @@ public class Board{
         }
         return false;
     }
+    
+    /**
+     * Check if king is in check
+     * @param piece: the piece to move
+     * @param x : the x location
+     * @param y : the y location
+     * @return boolean
+     */
+    public boolean isInCheck(int x, int y){
+    	
+    	Piece p = getPiece(x,y);
+    	
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                
+            	if(isOccupied(i,j)) {
+            		
+            		Piece curr = getPiece(i,j);
+            		// one or more piece of the opponent can move 
+            		if ((curr.getColor() != p.getColor()) && curr.canMove(this, x, y)) {
+            			System.out.println(curr.getType().toString() + "at lcoation " + i + ", " + j + "can check king");
+                        return true;
+            		}
+            	}
+                
+            }
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Check if the checked player has a legal move to get out of check
+     * @param player a given player
+     * @param k_i the player's king row position
+     * @param k_j the player's king col position
+     * @return Return false if none of player's pieces except king can make a legal move, that is,
+     * no matter how that piece moves, the king will be checked. Return true if otherwise.
+     */
+    public boolean hasLegalMoveToGetOutOfCheck(Piece king){
+    	
+    	// get the location of the checking piece
+    	int checkX = -1;
+        int checkY = -1;
+    	for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                
+            	if(isOccupied(i,j)) {
+            		
+            		Piece curr = getPiece(i,j);
+            		if ((curr.getColor() != king.getColor()) && curr.canMove(this, king.x, king.y)) {
+            			checkX = i;
+            			checkY = j;
+            		}
+            	}
+                
+            }
+        }
+    	assert(checkX != -1 && checkY != -1);
+    	
+    	// Check whether can capture the checking piece, with either the king or another piece.
+    	for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+            	
+            	if (isOccupied(i,j)) {
+
+            		Piece curr = getPiece(i,j);
+            		if((curr.getColor() == king.getColor()) && curr.canMove(this, checkX, checkY)) {
+            			return true;
+            		} 		
+            		
+            	}                 
+            }
+        }
+    	
+    	// Check whether can move the king to an adjacent square where it is not in check
+    	if (!isOccupied(king.x-1,king.y)) {
+    		if (!isInCheck(king.x-1,king.y)) return true;
+    	}
+    	if (!isOccupied(king.x+1,king.y)) {
+    		if (!isInCheck(king.x+1,king.y)) return true;
+    	}
+    	if (!isOccupied(king.x,king.y-1)) {
+    		if (!isInCheck(king.x,king.y-1)) return true;
+    	}
+    	if (!isOccupied(king.x,king.y+1)) {
+    		if (!isInCheck(king.x,king.y+1)) return true;
+    	}
+    	if (!isOccupied(king.x-1,king.y-1)) {
+    		if (!isInCheck(king.x-1,king.y-1)) return true;
+    	}
+    	if (!isOccupied(king.x+1,king.y+1)) {
+    		if (!isInCheck(king.x+1,king.y+1)) return true;
+    	}
+    	
+    
+        return false;
+    }
+    
+    
+    /**
+     * Check if the king is checkmated (king is in check and no legal moves to get out of check)
+     * @param king: king 
+     * @return whether the king is checkmated and the player loses
+     */
+    public boolean isCheckmate(ChessGame game){
+ 
+    	int[] kingPos = game.getKingPos(this);
+    	if (!isInCheck(kingPos[0],kingPos[1])) {
+    		if (!hasLegalMoveToGetOutOfCheck(getPiece(kingPos[0],kingPos[1]))) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    /**
+     * Check if there is a stalemate (player has no legal moves, and the player's king is not in check)
+     * @param game : the current game
+     * @return whether stalemate
+     */
+    public boolean isStaleMate(ChessGame game){
+        
+    	int[] kingPos = game.getKingPos(this);
+    	if (!isInCheck(kingPos[0],kingPos[1])) {
+    		if (!game.playerHasLegalMove(this))
+    			return true;    			
+    	}
+    	return false;
+    	
+    }
+    
+    
  
 }
 

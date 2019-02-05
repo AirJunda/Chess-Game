@@ -1,6 +1,7 @@
 package Game;
 
 import Pieces.*;
+import Pieces.Piece.Color;
 
 public class ChessGame{
 	
@@ -33,11 +34,72 @@ public class ChessGame{
 	}
 	
 	
+	public Color getPlayerColor() {
+		if (this.player == Player.playerWhite)
+			return Color.white;
+		else
+			return Color.black;
+	}
+	
+	
 	public void switchPlayer() {
 		if(this.player == Player.playerWhite)
 			this.player = Player.playerBlack;
 		else
 			this.player = Player.playerWhite;
 	}
+	
+	/**
+     * Return the king position of the current player
+     * @param 
+     * @return king x and y position
+     */
+    public int[] getKingPos(Board board){
+    	
+        int [] pos = {-1,-1};
+        
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+            	
+                if (board.isOccupied(i, j)) {
+                	if (( getPlayerColor() == board.getPiece(i,j).getColor()) && (board.getPiece(i, j).getType() == Piece.Type.king)){
+                		pos[0] = i;
+                		pos[1] = j;
+                	}
+                }
+                
+            }
+        }
+        return pos;
+    }
+	
+	
+	public boolean playerHasLegalMove(Board board) {
+		
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < height; j++){    
+	            
+				if(board.isOccupied(i,j)) { 		
+	            	
+	            	Piece curr = board.getPiece(i,j);
+	            	for (int a=0; a<width; a++) {
+	            		for (int b=0; b<height; b++) {
+	            				
+	            			if ((curr.getColor() == getPlayerColor()) && curr.canMove(board,a,b)) {
+	            				return true;
+	            			}
+	            			
+	            		}
+	            	
+	            	}
+	                
+	            }
+	        }
+	    	
+	    }
+		return false;
+	}
+	    
+	    
 
 }
