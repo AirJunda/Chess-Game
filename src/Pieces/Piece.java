@@ -68,6 +68,7 @@ public abstract class Piece {
      public void setType(Type type) {
          this.type = type;
      }
+     
 
      /**
       * Move the piece
@@ -77,14 +78,12 @@ public abstract class Piece {
       */
      public void move(Board board, int nx, int ny){
          if(board.isValidMove(this, nx, ny) && isValidMoveType(board, nx, ny)){
-        	 System.out.println("valid movement");
-        	 //board.removePiece(nx, ny);
+        	 System.out.printf("Valid movement: Move to %d, %d\n",nx,ny);
              board.replacePiece(this, nx, ny);
          }
-         else
-         {
-             System.out.println("Piece not moved: invalid movement");
-         }
+         //else{
+         //    System.out.println("Piece not moved: invalid movement");
+         //}
      }
      
      /**

@@ -34,10 +34,15 @@ public class Rook extends Piece{
      */
     public boolean isValidMoveType(Board board, int nx, int ny) {
     	
-    	if ((x == nx || y == ny) && isNotBlocked(board,nx,ny)) 
+    	if ((x == nx || y == ny) && isNotBlocked(board,nx,ny)) {
     		return true;
+    	}
+    	else if (x != nx && y != ny)
+    		System.out.println("Invalid movement: Rook can only move horizontally or vertically");
     	
     	return false;
+
+    	
     }
     
     /**
@@ -52,16 +57,20 @@ public class Rook extends Piece{
     	if (x == nx && y != ny) {
             int dirY = ny > y ? 1 : -1;
     		for (int i=1; i<Math.abs(ny-y); i++) {
-    			if (board.isOccupied(x, y+dirY*i))
+    			if (board.isOccupied(x, y+dirY*i)) {
+    				System.out.println("Invalid movement: The path is blocked");
     				return false;
+    			}
     		}
     	}
     	// move horizontally
     	if (y == ny && x != nx) {
     		int dirX = nx > x ? 1 : -1;
     		for (int i=1; i<Math.abs(nx-x); i++) {
-    			if (board.isOccupied(x+dirX*i, y))
+    			if (board.isOccupied(x+dirX*i, y)) {
+    				System.out.println("Invalid movement: The path is blocked");
     				return false;
+    			}
     		}
     	}
         

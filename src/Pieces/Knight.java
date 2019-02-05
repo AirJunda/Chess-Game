@@ -38,6 +38,7 @@ public class Knight extends Piece{
          if((diffX == 1 && diffY == 2) || (diffX == 2 && diffY == 1))
         		 return true;
          
+         System.out.println("Invalid movement: Knight can only move L-shaped");
          return false;
 
     }

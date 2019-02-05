@@ -177,6 +177,7 @@ public class Board{
      */
     public boolean isSameLoc(Piece p, int nx, int ny) {
    	 if(p.x == nx && p.y == ny){
+   		    System.out.println("Invalid movement: SAME LOCATION");
             return true;
         }
    	 return false;
@@ -190,6 +191,7 @@ public class Board{
      */
     public boolean isOutOfBound(int nx, int ny) {
    	 if(nx < 0 || nx >= width || ny < 0 || ny >= height){
+   		    System.out.println("Invalid movement: out of bound");
             return true;
         }
    	 return false;
@@ -205,8 +207,13 @@ public class Board{
     public boolean isValidEndPoint(Piece p, int nx, int ny)
     {
     	if (isOccupied(nx,ny)) {
-			if (p.getColor() == getPiece(nx,ny).getColor()) // occupied by piece in the same team
-    			return false;
+			if (p.getColor() == getPiece(nx,ny).getColor()) { // occupied by piece in the same team
+				System.out.println("Invalid movement: Space Occupied by a friend");
+				return false;
+			}
+			else {   // will capture an enemy
+				System.out.println("Valid movement: Capture an enemy!");
+			}
 		}
 		return true; 
     }
@@ -222,7 +229,8 @@ public class Board{
         if(isOccupied(nx,ny) && getPiece(nx,ny).getColor() != piece.getColor()){
             //if(boardArray[finalX][finalY].getType() == Type.KING)
             //    boardArray[finalX][finalY].player.isLoser = true;
-            return true;
+        	System.out.println("Valid movement: Capture an enemy!");
+        	return true;
         }
         return false;
     }

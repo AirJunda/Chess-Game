@@ -36,6 +36,8 @@ public class Bishop extends Piece{
     	
     	if ( (Math.abs(nx-x) == Math.abs(ny-y)) && isNotBlocked(board,nx,ny))
     		return true;
+    	else if ((Math.abs(nx-x) != Math.abs(ny-y)))
+    		System.out.println("Invalid movement: Bishop can only move diagonally");
     	
     	return false;
     }
@@ -55,8 +57,10 @@ public class Bishop extends Piece{
     	
     	if (Math.abs(nx-x) == Math.abs(ny-y)){
     		for(int i=1; i<Math.abs(nx-x); i++){
-                if(board.isOccupied(x+dirX*i, y+dirY*i))
+                if(board.isOccupied(x+dirX*i, y+dirY*i)) {
+                	System.out.println("Invalid movement: The path is blocked");
                     return false;
+                }
             }
     	}
     	
