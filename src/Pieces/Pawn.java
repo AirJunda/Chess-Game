@@ -36,6 +36,8 @@ public class Pawn extends Piece{
         int startY;
     	int diffX = nx-x;
         int diffY = ny-y;
+        int abs_diffX = Math.abs(nx-x);
+        int abs_diffY = Math.abs(ny-y);
       
 
         if(this.getColor() == Color.black){
@@ -51,6 +53,7 @@ public class Pawn extends Piece{
         if (y == startY) {
         	if (diffX == 0 && (diffY == 2*direction || diffY == direction))
         		return true;
+        
         }
  
         else {
@@ -59,11 +62,12 @@ public class Pawn extends Piece{
         		return true;
         	
         	// pawn capture by moving a step diagonally 
-        	if (diffX == diffY && diffY == direction && board.isOccupied(nx, ny) 
+        	if (abs_diffX == abs_diffY && diffY == direction && board.isOccupied(nx, ny) 
         			&& board.getPiece(nx,ny).getColor() != this.getColor())
         		return true;
         }
         
+        System.out.println("Invalid movement: Check https://en.wikipedia.org/wiki/Pawn_(chess) to see legal moves for pawn");
         return false;
         
     }

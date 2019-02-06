@@ -35,9 +35,18 @@ public class King extends Piece{
     	int diffX = Math.abs(nx-x);
         int diffY = Math.abs(ny-y);
 
-        if(diffX <= 1 && diffY <= 1)
-       		 return true;
-        
+        if(diffX <= 1 && diffY <= 1) {
+        	if (!board.isInCheck(x,y)) {
+        		return true;
+        	}
+        	else {
+        		System.out.println("Invalid movement: King will be in check");
+                return false;
+        	}
+        		
+        }
+       		 
+        System.out.println("Invalid movement: King can only move one square in any direction");
         return false;
     }
 

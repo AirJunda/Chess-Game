@@ -5,7 +5,7 @@ import Pieces.Piece.Color;
 
 public class ChessGame{
 	
-	final static int height = 8, width = 8;
+	public int height = 8, width = 8;
 	public Board board;
 	public enum Player{
 		playerWhite, playerBlack;
@@ -18,13 +18,17 @@ public class ChessGame{
      * @param width: the width of the board
      * @return return the ChessGame object
      */
-	public ChessGame() {
-		initGame();
+	public ChessGame(int height, int width, boolean init) {
+		this.height = height;
+		this.width = width;
+		board = new Board(height, width);
+		this.player = Player.playerWhite; // start the game with white player
+		if (init)
+			initGame();
 	}
 	
 	public void initGame(){
-		board = new Board(height, width);
-		this.player = Player.playerWhite; // start the game with white player
+		
 		board.initPieces();
            
 	}
@@ -75,23 +79,33 @@ public class ChessGame{
 	
 	
 	public boolean playerHasLegalMove(Board board) {
-		
+
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < height; j++){    
 	            
-				if(board.isOccupied(i,j)) { 		
-	            	
+				if(board.isOccupied(i,j)) { 
 	            	Piece curr = board.getPiece(i,j);
-	            	for (int a=0; a<width; a++) {
-	            		for (int b=0; b<height; b++) {
-	            				
-	            			if ((curr.getColor() == getPlayerColor()) && curr.canMove(board,a,b)) {
-	            				return true;
-	            			}
-	            			
-	            		}
 	            	
+	            	if (curr.getColor() == getPlayerColor()) {
+	            		for (int a=0; a<width; a++) {
+		            		for (int b=0; b<height; b++) {
+		            			
+		            			if (curr.canMove(board,a,b)) {
+		            				int x0 = curr.x;
+		            				int y0 = curr.y;
+		            				board.setPiece(curr, a, b);
+		            				board.removePiece(x0, y0);
+		            				boolean legal = !board.isInCheck(a,b);
+		            				board.removePiece(a, b);
+		            				board.setPiece(curr, x0,y0);
+		            				return legal;
+		            			}
+		            			
+		            		}
+		            	
+		            	}
 	            	}
+	            	
 	                
 	            }
 	        }

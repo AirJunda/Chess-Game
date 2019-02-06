@@ -178,7 +178,7 @@ public class Board{
      */
     public boolean isSameLoc(Piece p, int nx, int ny) {
    	 if(p.x == nx && p.y == ny){
-   		    System.out.println("Invalid movement: SAME LOCATION");
+   		    System.out.println("Invalid movement: Same Location");
             return true;
         }
    	 return false;
@@ -255,7 +255,7 @@ public class Board{
             		Piece curr = getPiece(i,j);
             		// one or more piece of the opponent can move 
             		if ((curr.getColor() != p.getColor()) && curr.canMove(this, x, y)) {
-            			System.out.println(curr.getType().toString() + "at lcoation " + i + ", " + j + "can check king");
+            			System.out.println(curr.getType().toString() + " at location " + i + ", " + j + " can check king");
                         return true;
             		}
             	}
@@ -310,23 +310,24 @@ public class Board{
             }
         }
     	
+    	
     	// Check whether can move the king to an adjacent square where it is not in check
-    	if (!isOccupied(king.x-1,king.y)) {
-    		if (!isInCheck(king.x-1,king.y)) return true;
-    	}
-    	if (!isOccupied(king.x+1,king.y)) {
+    	if (king.canMove(this, king.x-1, king.y)) {
+        		if (!isInCheck(king.x-1,king.y)) return true;	
+        }	
+    	if (king.canMove(this, king.x+1, king.y)) {
     		if (!isInCheck(king.x+1,king.y)) return true;
     	}
-    	if (!isOccupied(king.x,king.y-1)) {
+    	if (king.canMove(this, king.x, king.y-1)) {
     		if (!isInCheck(king.x,king.y-1)) return true;
     	}
-    	if (!isOccupied(king.x,king.y+1)) {
+    	if (king.canMove(this, king.x, king.y+1)) {
     		if (!isInCheck(king.x,king.y+1)) return true;
     	}
-    	if (!isOccupied(king.x-1,king.y-1)) {
+    	if (king.canMove(this, king.x-1, king.y-1)) {
     		if (!isInCheck(king.x-1,king.y-1)) return true;
     	}
-    	if (!isOccupied(king.x+1,king.y+1)) {
+    	if (king.canMove(this, king.x+1, king.y+1)) {
     		if (!isInCheck(king.x+1,king.y+1)) return true;
     	}
     	
@@ -343,8 +344,9 @@ public class Board{
     public boolean isCheckmate(ChessGame game){
  
     	int[] kingPos = game.getKingPos(this);
-    	if (!isInCheck(kingPos[0],kingPos[1])) {
+    	if (isInCheck(kingPos[0],kingPos[1])) {
     		if (!hasLegalMoveToGetOutOfCheck(getPiece(kingPos[0],kingPos[1]))) {
+    			
     			return true;
     		}
     	}

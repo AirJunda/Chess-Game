@@ -10,7 +10,7 @@ public class BoardTest{
 	@Test
 	public void testInitPieces() throws Exception{
 		
-		ChessGame game = new ChessGame();
+		ChessGame game = new ChessGame(8,8,true);
 		
 		// test if the board size is 8*8
 		assertEquals(game.board.getWidth(), 8);
@@ -59,7 +59,7 @@ public class BoardTest{
 	@Test
 	public void testRemovePieceAndSetPiece() throws Exception {
 		
-		ChessGame game = new ChessGame();
+		ChessGame game = new ChessGame(8,8,true);
 		// remove the piece at (0,0) which is black
 		game.board.removePiece(0, 0);
 		// replace it with a new type piece, say queen and white
@@ -86,10 +86,58 @@ public class BoardTest{
 
 	
 	@Test 
-	public void testFirstPlayer() throws Exception{
+	public void testFirstPlayer() throws Exception {
 		
-		ChessGame game = new ChessGame();
+		ChessGame game = new ChessGame(8,8,false);
 	    assertEquals(game.getPlayer(),ChessGame.Player.playerWhite);
+	}
+	
+	
+	@Test
+	public void testIsInCheck() throws Exception {
+		
+		Board board = new Board(8,8);
+		
+		King k = new King(0,0,Piece.Color.white);
+		Queen q = new Queen(0,7,Piece.Color.black);
+		board.setPiece(k, 0, 0);
+		board.setPiece(q, 0, 7);
+		
+		assertEquals(board.isInCheck(0,0), true);
+	}
+	
+	
+	@Test
+	public void testCheckmate() throws Exception {
+		
+		ChessGame game = new ChessGame(8,8,false);
+		
+		King k1 = new King(2,0,Piece.Color.white);
+		Queen q = new Queen(2,1,Piece.Color.black);
+		King k2 = new King(2,2,Piece.Color.black);	
+		game.board.setPiece(k1, 2, 0);
+		game.board.setPiece(q, 2, 1);
+		game.board.setPiece(k2, 2, 2);
+		
+		assertEquals(game.board.isInCheck(2, 0), true);
+		assertEquals(game.board.isCheckmate(game), true);
+	}
+	
+	
+	@Test
+	public void testStalemate() throws Exception {
+		
+		ChessGame game = new ChessGame(8,8,false);
+		game.switchPlayer();
+		King k1 = new King(0,2,Piece.Color.black);
+		Pawn q = new Pawn(1,2,Piece.Color.white);
+		King k2 = new King(2,2,Piece.Color.white);	
+		game.board.setPiece(k1, 0, 2);
+		game.board.setPiece(q, 1, 2);
+		game.board.setPiece(k2, 2, 2);		
+	
+        assertEquals(game.board.isStaleMate(game), true);
+
 	}
 	
 	

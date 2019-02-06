@@ -38,8 +38,13 @@ public class Queen extends Piece{
         if ((diffX ==0) || (diffY == 0) || (diffX == diffY)) {
         	if (isNotBlocked(board,nx,ny))
         		return true;
+        	else {
+        		System.out.println("Invalid movement: The path is blocked");
+        		return false;
+        	}
         }
      
+        System.out.println("Invalid movement: Queen can only move vertically, horizontally and diagonally");
         return false;	
     }
     
