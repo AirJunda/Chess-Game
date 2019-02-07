@@ -330,7 +330,6 @@ public class Board{
     	if (king.canMove(this, king.x+1, king.y+1)) {
     		if (!isInCheck(king.x+1,king.y+1)) return true;
     	}
-    	
     
         return false;
     }
