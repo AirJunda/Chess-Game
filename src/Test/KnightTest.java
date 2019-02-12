@@ -81,7 +81,7 @@ public class KnightTest{
 		
 		Board board = new Board(8,8);
 		
-		// when a player tries to move a piece not horizontally/ vertically
+		// when a player tries to move a piece not L-Shaped
 		Knight k  = new Knight(7,1,Piece.Color.black);
 		board.setPiece(k, 7, 1);
 		k.move(board, 7, 2); 
