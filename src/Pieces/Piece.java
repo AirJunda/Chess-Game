@@ -9,7 +9,7 @@ public abstract class Piece {
         white, black
     }
     public enum Type{
-        rook, bishop, knight, king, queen, pawn
+        rook, bishop, knight, king, queen, pawn, princess, giraffe
     }
     
     public int x,y;
