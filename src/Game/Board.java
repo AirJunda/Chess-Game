@@ -1,4 +1,4 @@
-package Game;
+package Model.Game;
 
 import Game.ChessGame.Player;
 import Pieces.*;
