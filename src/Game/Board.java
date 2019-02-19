@@ -1,4 +1,4 @@
-package Model.Game;
+package Game;
 
 import Game.ChessGame.Player;
 import Pieces.*;
@@ -213,7 +213,7 @@ public class Board{
 				return false;
 			}
 			else {   // will capture an enemy
-				System.out.println("Valid movement: Capture an enemy!");
+				System.out.println("Capture an enemy!");
 			}
 		}
 		return true; 

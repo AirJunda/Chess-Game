@@ -48,10 +48,11 @@ public class Pawn extends Piece{
             direction = -1;
             startX = 6;
         }
+
         
         // the first time a pawn moves, it has the option of advancing two squares
         if (x == startX) {
-        	if (diffY == 0 && (diffX == 2*direction || diffX == direction))
+        	if (diffY == 0 && (diffX == 2*direction || diffX == direction) && isNotBlocked(board,nx,ny,direction))
         		return true;
         
         }
@@ -70,6 +71,38 @@ public class Pawn extends Piece{
         System.out.println("Invalid movement: Check https://en.wikipedia.org/wiki/Pawn_(chess) to see legal moves for pawn");
         return false;
         
+    }
+    
+    /**
+     * Check if there is any piece block the way to specified location
+     * @param board: the current board
+     * @param nx : the new x location
+     * @param ny : the new y location
+     * @return whether blocked
+     */
+    public boolean isNotBlocked(Board board, int nx, int ny, int direction) {
+    	
+    	// black piece, only move downwards
+    	if (direction == 1) {
+    		for (int i=x+1; i<nx; i++) {
+    			if (board.isOccupied(i, y)) {
+    				System.out.println("Invalid movement: The path is blocked");
+                    return false;
+    			}
+    		}   		
+    	}
+    	// white piece, only move upwards
+    	else {
+    		for (int i=x-1; i>nx; i--) {
+    			if (board.isOccupied(i, y)) {
+    				System.out.println("Invalid movement: The path is blocked");
+                    return false;
+    			}
+    		}
+    		
+    	}
+  	
+    	return true;
     }
 
 

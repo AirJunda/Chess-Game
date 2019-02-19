@@ -91,7 +91,7 @@ public abstract class Piece {
       */
      public void move(Board board, int nx, int ny){
     	 if (canMove(board,nx,ny)) {
-        	 System.out.printf("Valid movement: Move to %d, %d\n",nx,ny);
+        	 System.out.printf("Moving to %d, %d\n",nx,ny);
              board.replacePiece(this, nx, ny);
          }
          //else{
