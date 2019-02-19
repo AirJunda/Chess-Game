@@ -35,19 +35,19 @@ public class Controller{
      */
     public void changeButtonBackground(JButton button) {
     	// selected, change back 
-    	if (button.getBackground() == Color.yellow) {
+    	if (button.getBackground() == Color.blue) {
     		 button.setBackground(view.selectedBackGroundColor);
     		 view.selectedBackGroundColor = null;
     		 return;
     	}
     	
     	view.selectedBackGroundColor = button.getBackground();
-    	button.setBackground(Color.yellow);
+    	button.setBackground(Color.blue);
     	
     }
 	
 	/**
-	 * Move Piece icon to another location 
+	 * Move Piece to another location 
 	 * @param e : event
 	 */
 	public void moveAttempt(ActionEvent e) {
@@ -62,7 +62,7 @@ public class Controller{
 		// get original location of the selected piece and its target location
 		int [] loc = getLocation(view.selectedButton.getActionCommand());
 		int [] nloc = getLocation(e.getActionCommand());
-        System.out.println("This piece would like to move to " + nloc[0] + " , " + nloc[1]);
+        //System.out.println("This piece would like to move to " + nloc[0] + " , " + nloc[1]);
         
 		boolean isMoved = oneStepMove(loc[0],loc[1],nloc[0],nloc[1]);
 		if (isMoved) {
@@ -76,9 +76,12 @@ public class Controller{
 	 */
 	public boolean oneStepMove(int x, int y, int nx, int ny) {
 		
+		// TODO : ADD ENDING CONDITIONS
+		
 		int width = game.board.getWidth();
 		int height = game.board.getHeight();
 		
+		// if selected out of bound
 		if (x<0 || x>=width || y<0 || y>=height || nx<0 || nx>=width || ny<0 || ny>=height) {
 			 JOptionPane.showMessageDialog(null,"Invalid Selection: Out Of Bound"); 
 			 return false;
@@ -113,10 +116,8 @@ public class Controller{
 		game.switchPlayer();	
 		System.out.println("Now it is Player "+ game.getPlayerColor().toString() + "'s turn");
 		
-	
-       
+  
 		return true;
-		// if selected out of bound
 		
 	}
 	
@@ -135,27 +136,92 @@ public class Controller{
 	}
 	
 	/**
-	 * Show confirmation Message by component to restart game
+	 * Restart event actionListener. Show confirmation message to opponent
 	 * @param the current window frame
 	 */
-//	public void restart() {
-//		int reply = JOptionPane.showConfirmDialog(
-//			    view.window,
-//			    game.getPlayer() 
-//			    + " would like to restart the game. "
-//			    + "Do you accept?",
-//			    "Make a Decision",
-//			    JOptionPane.YES_NO_OPTION);
-//		
-//		// YES
-//		if (reply == JOptionPane.YES_OPTION) {
-//			//Chess.restart();
-//			//modelReset();
-//			//TODO
-//		}
-//	}
+	public void restart() {
+		int reply = JOptionPane.showConfirmDialog(
+			    view.window,
+			    game.getPlayer()
+			    + ", do you agree to restart the game? ",
+			    "Make a Decision",
+			    JOptionPane.YES_NO_OPTION);
+		
+		// restart the game
+		if (reply == JOptionPane.YES_OPTION) {
+			System.out.println("Restart the game");
+			resetGame();
+			// reset score
+			view.score_white = 0;
+			view.score_black = 0;
+		}
+	}
 	
+	/** 
+	 * Reset all the pieces and variables
+	 */
+	public void resetGame() {
+		// clear the board
+		game.player = Player.playerWhite;
+		game.board.initPieces();
+		view.removemAllChessPieces();
+		view.initimalizeChessPieces();
+		view.selectedBackGroundColor = null;
+		view.selectedButton = null;
+		
+	}
+	
+	/**
+	 * Forfeit event actionListener. update score and restart game
+	 * @param the current window frame
+	 */
+	public void forfeit() {
+		int reply = JOptionPane.showConfirmDialog(
+			    view.window,
+			    game.getPlayer()
+			    + ", are you sure to forfeit the game? ",
+			    "Make a Decision",
+			    JOptionPane.YES_NO_OPTION);
+		
+		// forfeit the game
+		if (reply == JOptionPane.YES_OPTION) {
+			System.out.println(game.getPlayer()+ " forfeit");
+			// forfeit, lose the game
+			if (game.getPlayer() == ChessGame.Player.playerWhite) {
+				// opponent get one point
+				updateScore(ChessGame.Player.playerBlack);
+			}
+			else {
+				updateScore(ChessGame.Player.playerWhite);
+			}
+			resetGame();
+		}
+		
+	}
+	
+	/**
+	 * Update player's score
+	 */
+	public void updateScore(ChessGame.Player player) {
+		if (player == ChessGame.Player.playerWhite) {
+			view.score_white++;
+		}
+		else {
+			view.score_black++;
+		}
+		System.out.println("Score: Player Black " + view.score_black+ " : " + view.score_white + " Player White");
+	}
+	
+	
+	/**
+	 *  Show Result event actionListener. display current scores
+	 */
+	public void showResults() {
+		JOptionPane.showMessageDialog(null,"Score: Player Black " + view.score_black+ " : " + view.score_white + " Player White"); 
+	}
 
+	
+	
 	/**
      * string manipulation to get the x, y location of the selected button 
      * @param s : string of selected button location 

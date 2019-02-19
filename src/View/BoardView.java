@@ -42,6 +42,7 @@ public class BoardView {
 	public ChessGame game = new ChessGame(8,8,true);
 	public Controller controller = new Controller(game, this);
 	
+	public JFrame window;
 	public JPanel chessBoard;
 	public final int width = 8;
 	public final int height = 8;
@@ -60,6 +61,8 @@ public class BoardView {
 	
 	public java.awt.Color selectedBackGroundColor;
 	public JButton selectedButton;
+	public int score_black = 0;
+	public int score_white = 0;
 	
 
     public BoardView(){
@@ -69,7 +72,7 @@ public class BoardView {
         } catch(Exception e) {
             //silently ignore
         }
-        JFrame window = new JFrame("Chess Game");
+        window = new JFrame("Chess Game");
         window.setSize(500, 500);  
          
         initimalizeBoardGrid();
@@ -204,17 +207,11 @@ public class BoardView {
             String name = item.getText();
  
             if (name.equals("Restart")) {
-            	// TODO
-            	JOptionPane.showMessageDialog(null,
-                        "I was clicked by "+e.getActionCommand(),
-                        "Title here", JOptionPane.INFORMATION_MESSAGE);
+            	controller.restart();
             }
             
             if (name.equals("Forfeit")) {
-            	// TODO
-            	JOptionPane.showMessageDialog(null,
-                        "I was clicked by "+e.getActionCommand(),
-                        "Title here", JOptionPane.INFORMATION_MESSAGE);
+            	controller.forfeit();
             }
             
             if (name.equals("Undo")) {
@@ -225,10 +222,7 @@ public class BoardView {
             }
             
             if (name.equals("Show Results")) {
-            	// TODO
-            	JOptionPane.showMessageDialog(null,
-                        "I was clicked by "+e.getActionCommand(),
-                        "Title here", JOptionPane.INFORMATION_MESSAGE);
+            	controller.showResults();
             }
   
         }
@@ -307,7 +301,7 @@ public class BoardView {
     /**
      * Remove mall button (icons) on the board
      */
-    public void removemallButtons(){
+    public void removemAllChessPieces(){
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 chessBoardSquares[i][j].setIcon(null);
