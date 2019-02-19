@@ -19,6 +19,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -61,7 +62,9 @@ public class BoardView {
 	
 	public java.awt.Color selectedBackGroundColor;
 	public JButton selectedButton;
+	public String playerBlack_name = "";
 	public int score_black = 0;
+	public String playerWhite_name = "";
 	public int score_white = 0;
 	
 
@@ -74,15 +77,16 @@ public class BoardView {
         }
         window = new JFrame("Chess Game");
         window.setSize(500, 500);  
-         
-        initimalizeBoardGrid();
-        initimalizeChessPieces();
+        
+        initializeBoardGrid();
+        initializeChessPieces();
               
         window.getContentPane().add(chessBoard, BorderLayout.CENTER);
-        //initimalizeButton(myPanel);
         setUpMenu(window);
-        //window.setContentPane(myPanel);
         window.setVisible(true);
+        
+        initializePlayerName();
+        getPlayerName();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
     }
@@ -92,7 +96,7 @@ public class BoardView {
     /**
      * Initimalize the chess board grid panel
      */
-    public void initimalizeBoardGrid(){
+    public void initializeBoardGrid(){
     	
         chessBoard = new JPanel(new GridLayout(8,8));
         chessBoard.setOpaque(false);
@@ -137,7 +141,7 @@ public class BoardView {
    /**
     * Fill in the chess board with pieces in their initimal positions
     */
-   public void initimalizeChessPieces() {
+   public void initializeChessPieces() {
 	   
    	String[] blackPieces = {"bRook","bKnight","bBishop","bQueen","bKing","bBishop","bKnight","bRook",
                "bPawn","bPawn","bPawn","bPawn","bPawn","bPawn","bPawn","bPawn"};
@@ -190,6 +194,16 @@ public class BoardView {
 		scores.add(result);
 		result.addActionListener(mal);
 
+    }
+    
+    
+    /** 
+     * creates a tool bar message that shows player name
+     */
+    public void initializePlayerName() {
+    	getPlayerNamePopUp();
+    	
+    	window.setTitle("Chess Game  (" + getPlayerName()+" to Move)");
     }
     
     
@@ -298,10 +312,35 @@ public class BoardView {
      */
     public JMenuItem getScores() { return scores; }
     
+    
+    /**
+     * a window that let player enter their names
+     */
+    public void getPlayerNamePopUp() {
+    	playerWhite_name = JOptionPane.showInputDialog("PlayerWhite: Enter your name: ");
+    	if (playerWhite_name == null)
+    		playerWhite_name = "player White";
+    	playerBlack_name = JOptionPane.showInputDialog("PlayerBlack: Enter your name: ");
+    	if (playerBlack_name == null)
+    		playerBlack_name = "player Black";
+    }
+    
+    /**
+     * get the current player name
+     * @return string
+     */
+    public String getPlayerName() {
+    	if (game.getPlayer() == ChessGame.Player.playerWhite) {
+    		return playerWhite_name;
+    	}
+    	return playerBlack_name;
+    }
+    
+    
     /**
      * Remove mall button (icons) on the board
      */
-    public void removemAllChessPieces(){
+    public void removeAllChessPieces(){
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 chessBoardSquares[i][j].setIcon(null);

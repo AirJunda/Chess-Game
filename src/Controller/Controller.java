@@ -114,7 +114,8 @@ public class Controller{
 		}
 				
 		game.switchPlayer();	
-		System.out.println("Now it is Player "+ game.getPlayerColor().toString() + "'s turn");
+		view.window.setTitle("Chess Game  (" + view.getPlayerName()+" to Move)");
+		System.out.println("Now it is "+ view.getPlayerName() + "'s turn");
 		
   
 		return true;
@@ -151,9 +152,6 @@ public class Controller{
 		if (reply == JOptionPane.YES_OPTION) {
 			System.out.println("Restart the game");
 			resetGame();
-			// reset score
-			view.score_white = 0;
-			view.score_black = 0;
 		}
 	}
 	
@@ -164,8 +162,8 @@ public class Controller{
 		// clear the board
 		game.player = Player.playerWhite;
 		game.board.initPieces();
-		view.removemAllChessPieces();
-		view.initimalizeChessPieces();
+		view.removeAllChessPieces();
+		view.initializeChessPieces();
 		view.selectedBackGroundColor = null;
 		view.selectedButton = null;
 		
@@ -178,14 +176,14 @@ public class Controller{
 	public void forfeit() {
 		int reply = JOptionPane.showConfirmDialog(
 			    view.window,
-			    game.getPlayer()
+			    view.getPlayerName()
 			    + ", are you sure to forfeit the game? ",
 			    "Make a Decision",
 			    JOptionPane.YES_NO_OPTION);
 		
 		// forfeit the game
 		if (reply == JOptionPane.YES_OPTION) {
-			System.out.println(game.getPlayer()+ " forfeit");
+			System.out.println(view.getPlayerName()+ " forfeit");
 			// forfeit, lose the game
 			if (game.getPlayer() == ChessGame.Player.playerWhite) {
 				// opponent get one point
@@ -209,7 +207,7 @@ public class Controller{
 		else {
 			view.score_black++;
 		}
-		System.out.println("Score: Player Black " + view.score_black+ " : " + view.score_white + " Player White");
+		System.out.println("Score: " + view.playerBlack_name + " " + view.score_black+ " : " + view.score_white + " " + view.playerWhite_name);
 	}
 	
 	
@@ -217,7 +215,7 @@ public class Controller{
 	 *  Show Result event actionListener. display current scores
 	 */
 	public void showResults() {
-		JOptionPane.showMessageDialog(null,"Score: Player Black " + view.score_black+ " : " + view.score_white + " Player White"); 
+		JOptionPane.showMessageDialog(null,"Score: " + view.playerBlack_name + " " + view.score_black+ " : " + view.score_white + " " + view.playerWhite_name);
 	}
 
 	
