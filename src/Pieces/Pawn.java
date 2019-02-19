@@ -33,7 +33,7 @@ public class Pawn extends Piece{
     public boolean isValidMoveType(Board board, int nx, int ny) {
     	
     	int direction;  // check pawn can not move backwards
-        int startY;
+        int startX;
     	int diffX = nx-x;
         int diffY = ny-y;
         int abs_diffX = Math.abs(nx-x);
@@ -42,23 +42,23 @@ public class Pawn extends Piece{
 
         if(this.getColor() == Color.black){
             direction = 1;
-            startY = 1;
+            startX = 1;
         }
         else{
             direction = -1;
-            startY = 6;
+            startX = 6;
         }
         
         // the first time a pawn moves, it has the option of advancing two squares
-        if (y == startY) {
-        	if (diffX == 0 && (diffY == 2*direction || diffY == direction))
+        if (x == startX) {
+        	if (diffY == 0 && (diffX == 2*direction || diffX == direction))
         		return true;
         
         }
  
         else {
         	// normally a pawn moves by advancing a single square
-        	if (diffX == 0 && diffY == direction)
+        	if (diffY == 0 && diffX == direction)
         		return true;
         	
         	// pawn capture by moving a step diagonally 
