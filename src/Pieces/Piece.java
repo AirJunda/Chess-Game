@@ -28,16 +28,6 @@ public abstract class Piece {
 		this.color = color;
 	}
 
-    /**
-     * Copy constructor of a piece 
-     * @param 
-     */
-     public Piece(Piece p) {
-    	 System.out.println("piece copying");
-    	 this.x = p.x;
-    	 this.y = p.y;
-         this.color = p.color;
-     }
      
      /**
       * Getter for piece color
@@ -45,14 +35,6 @@ public abstract class Piece {
       */
      public Color getColor() {
          return color;
-     }
-
-     /**
-      * Setter for piece color
-      * @param color: one of two colors: (black, white)
-      */
-     public void setColor(Color color) {
-         this.color = color;
      }
      
      /**
