@@ -84,9 +84,9 @@ public class PawnTest{
 		assertEquals(board.getPiece(2, 6), pWhite);
 		
 		Queen q2 = new Queen(1,6,Piece.Color.black);
-		board.setPiece(q2, 1, 6);
-		pWhite.move(board,1,6);  // can move and capture
-		assertEquals(board.getPiece(1,6), pWhite);
+		board.setPiece(q2, 1, 5);
+		pWhite.move(board,1,5);  // can move and capture
+		assertEquals(board.getPiece(1,5), pWhite);
 		
 		
 		

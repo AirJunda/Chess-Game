@@ -59,11 +59,11 @@ public class Pawn extends Piece{
  
         else {
         	// normally a pawn moves by advancing a single square
-        	if (diffY == 0 && diffX == direction)
+        	if (diffY == 0 && diffX == direction && !board.isOccupied(nx,ny))
         		return true;
         	
         	// pawn capture by moving a step diagonally 
-        	if (abs_diffX == abs_diffY && diffY == direction && board.isOccupied(nx, ny) 
+        	if (abs_diffX == abs_diffY && diffX == direction && board.isOccupied(nx, ny) 
         			&& board.getPiece(nx,ny).getColor() != this.getColor())
         		return true;
         }
