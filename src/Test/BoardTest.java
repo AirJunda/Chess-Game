@@ -5,6 +5,8 @@ import Pieces.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.Stack;
+
 public class BoardTest{
 	
 	@Test
@@ -139,6 +141,16 @@ public class BoardTest{
         assertEquals(game.board.isStaleMate(game), true);
 
 	}
+	
+	@ Test
+	public void testStateStack() throws Exception{
+		
+		ChessGame game = new ChessGame(8,8,true);
+		Stack<State> history = game.getHistory();
+		assertEquals(history.empty(), true);
+		
+	}
+	
 	
 	
 }

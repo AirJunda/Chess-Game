@@ -15,6 +15,8 @@ public class ChessGame{
 	public Player player;
 	public Player winner = null;
 	
+	public boolean custom = false;
+	
 	Stack<State> history = new Stack<State>();
 	
 	
@@ -35,7 +37,7 @@ public class ChessGame{
 	
 	public void initGame(){
 		
-		board.initPieces();
+		board.initPieces(custom);
            
 	}
 	

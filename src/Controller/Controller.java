@@ -204,7 +204,7 @@ public class Controller{
 		game.setWinner(null);
 		game.getHistory().clear();
 		game.player = Player.playerWhite;
-		game.board.initPieces();
+		game.board.initPieces(false);
 		view.removeAllChessPieces();
 		view.initializeChessPieces();
 		view.selectedBackGroundColor = null;

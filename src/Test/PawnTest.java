@@ -69,13 +69,14 @@ public class PawnTest{
 		// at starting position, white pawn can only move up 1 or 2 block
 		Pawn pWhite = new Pawn(3,6,Piece.Color.white);
 		board.setPiece(pWhite, 3,6);
+		pWhite.move(board,1,6);   // blocked, not moved
 		pWhite.move(board,3,3);
 		pWhite.move(board,4,6);   // cannot move backwards
 		pWhite.move(board,3,4);   // cannot move horizontally
 		pWhite.move(board,1,4);   // cannot move diagonally		
 		assertEquals(board.getPiece(3,6), pWhite);
 		
-		// if not at starting position, black pawn can only move down 1 block or move diagonally to capture
+		// if not at starting position, white pawn can only move up 1 block or move diagonally to capture
 		pWhite.move(board,2,6);
 		pWhite.move(board,3,2);  // cannot move 2 blocks
 		pWhite.move(board,3,5);  // cannot move backward

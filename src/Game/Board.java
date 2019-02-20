@@ -21,7 +21,7 @@ public class Board{
 		
 	}
 	
-	public void initPieces() {
+	public void initPieces(boolean custom) {
 		
 		for (int i = 0; i < height; i++){
 	    	 for (int j = 0; j < width; j++){
@@ -54,7 +54,25 @@ public class Board{
 	    	board[1][i] = new Pawn(1,i,Piece.Color.black);
 	    	board[6][i] = new Pawn(6,i,Piece.Color.white);
 	    }
+	    
 	}
+	
+	/**
+	 * add custom piece
+	 */
+	public void customPieceSetUp(boolean custom) {
+		if (!custom) return;
+		
+		removePiece(1,3);
+		removePiece(6,3);
+		removePiece(1,4);
+		removePiece(6,4);
+		board[1][3] = new Princess(1,3,Piece.Color.black);
+    	board[6][3] = new Princess(6,3,Piece.Color.white);
+    	board[1][4] = new Giraffe(1,4,Piece.Color.black);
+    	board[6][4] = new Giraffe(6,4,Piece.Color.white);
+	}
+	
 	
 	/**
      * Getter for board
@@ -178,7 +196,6 @@ public class Board{
      */
     public boolean isSameLoc(Piece p, int nx, int ny) {
    	 if(p.x == nx && p.y == ny){
-   		    System.out.println("Invalid movement: Same Location");
             return true;
         }
    	 return false;
@@ -212,9 +229,9 @@ public class Board{
 				System.out.println("Invalid movement: Space Occupied by a friend");
 				return false;
 			}
-			else {   // will capture an enemy
-				System.out.println("Capture an enemy!");
-			}
+//			else {   // will capture an enemy
+//				System.out.println("Capture an enemy!");
+//			}
 		}
 		return true; 
     }
@@ -230,10 +247,26 @@ public class Board{
         if(isOccupied(nx,ny) && getPiece(nx,ny).getColor() != piece.getColor()){
             //if(boardArray[finalX][finalY].getType() == Type.KING)
             //    boardArray[finalX][finalY].player.isLoser = true;
-        	System.out.println("Valid movement: Capture an enemy!");
+        	//System.out.println("Valid movement: Capture an enemy!");
         	return true;
         }
         return false;
+    }
+    
+    /**
+     * Check if the king will be checked 
+     * @param piece : the piece to move
+     * @param nx : the new x location
+     * @param ny : the new y location
+     * @return
+     */
+    public boolean isCheckKing(Piece piece, int nx, int ny) {
+    	if (isCapture(piece,nx,ny) && (getPiece(nx,ny).getType()==Piece.Type.king)) {
+    		// king will be captured, game end
+    		System.out.println("Caputre the king!");
+    		return true;
+    	}
+    	return false;
     }
     
     /**
@@ -275,7 +308,7 @@ public class Board{
      * no matter how that piece moves, the king will be checked. Return true if otherwise.
      */
     public boolean hasLegalMoveToGetOutOfCheck(Piece king){
-    	
+
     	// get the location of the checking piece
     	int checkX = -1;
         int checkY = -1;
