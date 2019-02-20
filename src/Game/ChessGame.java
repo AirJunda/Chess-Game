@@ -1,5 +1,7 @@
 package Game;
 
+import java.util.Stack;
+
 import Pieces.*;
 import Pieces.Piece.Color;
 
@@ -11,6 +13,10 @@ public class ChessGame{
 		playerWhite, playerBlack;
     }
 	public Player player;
+	public Player winner = null;
+	
+	Stack<State> history = new Stack<State>();
+	
 	
 	/**
      * Constructor for a chess game
@@ -45,7 +51,9 @@ public class ChessGame{
 			return Color.black;
 	}
 	
-	
+	/**
+	 * Alternate turns 
+	 */
 	public void switchPlayer() {
 		if(this.player == Player.playerWhite)
 			this.player = Player.playerBlack;
@@ -53,6 +61,21 @@ public class ChessGame{
 			this.player = Player.playerWhite;
 	}
 	
+	
+	/**
+     * Getter for the winner
+     * @return Return the winner(can be null)
+     */
+    public Player getWinner() { return winner; }
+
+    
+    /**
+     * setter for winner 
+     * @param winner : the player who will win
+     */
+    public void setWinner(Player winner) { this.winner = winner; }
+	
+    
 	/**
      * Return the king position of the current player
      * @param 
@@ -76,6 +99,12 @@ public class ChessGame{
         }
         return pos;
     }
+    
+    /**
+     * Getter for stack of history
+     * @return stack
+     */
+    public Stack<State> getHistory() { return history; }
 	
 	
 	public boolean playerHasLegalMove(Board board) {

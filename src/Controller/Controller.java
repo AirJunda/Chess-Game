@@ -3,11 +3,13 @@ package Controller;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Stack;
 
 import javax.swing.*;
 
 import Game.*;
 import Game.ChessGame.Player;
+import Game.State;
 import Pieces.*;
 import View.*;
 
@@ -15,7 +17,6 @@ public class Controller{
 	
 	private ChessGame game;
 	private BoardView view;
-	private JButton[][] buttons;
 	
 	 /**
      * Constructor for the Controller
@@ -25,7 +26,6 @@ public class Controller{
 	public Controller(ChessGame game, BoardView view) {
 		this.game = game;
 		this.view = view;
-		buttons = view.getButtons();
 	}
 	
 	
@@ -35,16 +35,17 @@ public class Controller{
      */
     public void changeButtonBackground(JButton button) {
     	// selected, change back 
-    	if (button.getBackground() == Color.blue) {
+    	if (button.getBackground() == Color.pink) {
     		 button.setBackground(view.selectedBackGroundColor);
     		 view.selectedBackGroundColor = null;
     		 return;
     	}
     	
     	view.selectedBackGroundColor = button.getBackground();
-    	button.setBackground(Color.blue);
+    	button.setBackground(Color.pink);
     	
     }
+
 	
 	/**
 	 * Move Piece to another location 
@@ -64,19 +65,16 @@ public class Controller{
 		int [] nloc = getLocation(e.getActionCommand());
         //System.out.println("This piece would like to move to " + nloc[0] + " , " + nloc[1]);
         
-		boolean isMoved = oneStepMove(loc[0],loc[1],nloc[0],nloc[1]);
-		if (isMoved) {
-			updateIcon(button);
-		}
+		oneStepMove(button, loc[0],loc[1],nloc[0],nloc[1]);
 		
+
 	}
 	
 	/** 
 	 * One step of move, check all possible conditions
 	 */
-	public boolean oneStepMove(int x, int y, int nx, int ny) {
-		
-		// TODO : ADD ENDING CONDITIONS
+	public void oneStepMove(JButton button, int x, int y, int nx, int ny) {
+	
 		
 		int width = game.board.getWidth();
 		int height = game.board.getHeight();
@@ -84,56 +82,99 @@ public class Controller{
 		// if selected out of bound
 		if (x<0 || x>=width || y<0 || y>=height || nx<0 || nx>=width || ny<0 || ny>=height) {
 			 JOptionPane.showMessageDialog(null,"Invalid Selection: Out Of Bound"); 
-			 return false;
+			 return;
 		}
 			
 		// if the target location is the same as the current location, nothing happened and user may select again
 		if (x==nx && y==ny)
-			return false;
+			return;
 		
 		Piece p = game.board.getPiece(x, y);
+		Piece np = game.board.getPiece(nx,ny);
 	
 		
 		if((p.getColor() == Piece.Color.white && game.getPlayer() == Player.playerBlack)){
 			JOptionPane.showMessageDialog(null,"You are player Black, you can only select black chess pieces"); 
-			return false;
+			return;
 		}
 		if((p.getColor() == Piece.Color.black && game.getPlayer() == Player.playerWhite)){
 			JOptionPane.showMessageDialog(null,"You are player White, you can only select white chess pieces"); 
-			return false;
+			return;
 		}
 		
-		// valid move
-		if (p.canMove(game.board, nx, ny)) {
-			p.move(game.board,nx,ny);	
+		// check if there already exists a winner, if not, continue the game
+		if (game.getWinner() == null) {
+			if (p.canMove(game.board, nx, ny)) {
+				
+				if (game.board.isCheckKing(p, nx, ny)) {
+					// win after this move
+					game.setWinner(game.getPlayer());
+				}
+				
+				State history = new State(p,x,y,np,nx,ny);
+				game.getHistory().push(history);
+				
+				// MOVE 
+				p.move(game.board,nx,ny);
+				updateIcon(button);
+				
+				// result in a winner after this move, game end
+				if (game.getWinner() != null) {
+					JOptionPane.showMessageDialog(null,view.getPlayerName()+" wins!"); 
+					updateScore(game.getPlayer());
+					showResults();
+					return;
+				}
+			}
 			
+			// invalid move, player try again
+			else {
+				JOptionPane.showMessageDialog(null,"cannot move to this location"); 
+				return;
+			}
 		}
-		else {
-			JOptionPane.showMessageDialog(null,"Invalid Location"); 
-			return false;
+		
+		else {  // winner exists
+			return;
 		}
+		
 				
 		game.switchPlayer();	
 		view.window.setTitle("Chess Game  (" + view.getPlayerName()+" to Move)");
 		System.out.println("Now it is "+ view.getPlayerName() + "'s turn");
 		
-  
-		return true;
-		
 	}
 	
+	
+	/**
+	 * update piece icons
+	 * @param button 
+	 */
 	public void updateIcon(JButton button) {
 		button.setIcon(view.selectedButton.getIcon());
 		view.selectedButton.setIcon(null);
 	}
 	
 
-	
+
 	/**
-	 * Undo event actionListener. A player can only undo one step and only after a step was make.
+	 * Undo event actionListener. A player can undo multiple steps until the first move
 	 */
 	public void undo() {
-		// TODO
+		
+		Stack<State> history = game.getHistory();
+		if (history.empty()) {
+			JOptionPane.showMessageDialog(null,"Cannot Undo: no previous step");
+            return;
+		}
+		
+		game.switchPlayer();
+		
+		State curr = history.pop();
+		game.board.setPiece(curr.p, curr.x, curr.y);
+		game.board.setPiece(curr.np, curr.nx, curr.ny);
+		
+		view.resetIcon(game.board);
 	}
 	
 	/**
@@ -143,7 +184,7 @@ public class Controller{
 	public void restart() {
 		int reply = JOptionPane.showConfirmDialog(
 			    view.window,
-			    game.getPlayer()
+			    view.getPlayerName()
 			    + ", do you agree to restart the game? ",
 			    "Make a Decision",
 			    JOptionPane.YES_NO_OPTION);
@@ -160,6 +201,8 @@ public class Controller{
 	 */
 	public void resetGame() {
 		// clear the board
+		game.setWinner(null);
+		game.getHistory().clear();
 		game.player = Player.playerWhite;
 		game.board.initPieces();
 		view.removeAllChessPieces();

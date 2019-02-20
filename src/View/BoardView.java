@@ -17,6 +17,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -35,7 +36,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import Controller.*;
+import Game.Board;
 import Game.ChessGame;
+import Pieces.Piece;
  
  
 public class BoardView {
@@ -47,7 +50,6 @@ public class BoardView {
 	public JPanel chessBoard;
 	public final int width = 8;
 	public final int height = 8;
-	//public ButtonActionListener bal = new ButtonActionListener();
 	public JButton[][] chessBoardSquares = new JButton[width][height];
 	
 	
@@ -66,6 +68,9 @@ public class BoardView {
 	public int score_black = 0;
 	public String playerWhite_name = "";
 	public int score_white = 0;
+	
+    public Icon movedIcon = null;
+    public JButton movedButton;
 	
 
     public BoardView(){
@@ -94,7 +99,7 @@ public class BoardView {
     
     
     /**
-     * Initimalize the chess board grid panel
+     * Initialize the chess board grid panel
      */
     public void initializeBoardGrid(){
     	
@@ -139,7 +144,7 @@ public class BoardView {
     
         
    /**
-    * Fill in the chess board with pieces in their initimal positions
+    * Fill in the chess board with pieces in their initial positions
     */
    public void initializeChessPieces() {
 	   
@@ -202,115 +207,42 @@ public class BoardView {
      */
     public void initializePlayerName() {
     	getPlayerNamePopUp();
-    	
-    	window.setTitle("Chess Game  (" + getPlayerName()+" to Move)");
+    
+    	window.setTitle("Chess Game (" + getPlayerName()+" to Move)");
     }
     
     
     /**
-	 * Creates a new button listener that will take mall
-	 * possible commands that we have programmed.
-	 * @param frame the frame that the actionlistener is anchored to
-	 * @return the actionlistener to take button press input
-	 */
-    public class MenuBarActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            
-        	JMenuItem item = (JMenuItem) e.getSource();
-            String name = item.getText();
- 
-            if (name.equals("Restart")) {
-            	controller.restart();
+     * Map to piece to image address
+     * @param p a chess piece
+     * @return Return a string that contains the location of its corresponding image
+     */
+    private String getPieceImageFile(Piece p){
+        if(p.getColor() == Piece.Color.white)
+            return "w" + p.getType().toString();
+        else
+            return "b" + p.getType().toString();
+    }
+
+    /**
+     * Render the chess board GUI configuartion given a piece array
+     * @param pieces piece array that characterizes the chess board
+     */
+    public void resetIcon(Board board){
+    	
+        removeAllChessPieces();
+        
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+            	{
+                if (board.isOccupied(i,j))
+                	
+                    chessBoardSquares[i][j].setIcon(new ImageIcon(readImage(getPieceImageFile(board.getPiece(i, j)))));
+                    chessBoardSquares[i][j].revalidate();
+                }
             }
-            
-            if (name.equals("Forfeit")) {
-            	controller.forfeit();
-            }
-            
-            if (name.equals("Undo")) {
-            	// TODO
-            	JOptionPane.showMessageDialog(null,
-                        "I was clicked by "+e.getActionCommand(),
-                        "Title here", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-            if (name.equals("Show Results")) {
-            	controller.showResults();
-            }
-  
         }
     }
-    
-    /**
-     * Cmalled when button is clicked.
-     */
-    public class ButtonActionListener implements ActionListener {
-    	
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // change the color of the button with icon when clicked
-            JButton button = (JButton) e.getSource();
-            int[] loc = controller.getLocation(e.getActionCommand());
-            System.out.println("button " + loc[0] + " , " + loc[1] + " clicked");
-            
-            
-            // if click on a button where no pieces(icons) are placed, cannot do anything
-            if (button.getIcon() == null && selectedButton == null) 
-            	return;
-            // select an unselected piece(button)
-            else if (button.getIcon() != null && selectedButton == null) {
-            	selectedButton = button;
-            	controller.changeButtonBackground(button);   // wait for next click to move
-            	return;
-            }
-            
-            // move a piece
-            if (selectedButton != null) {
-            	// TODO: MOVE PIECE
-            	controller.moveAttempt(e);
-            	// TODO: UPDATE ICONS
-            	
-            	// after a move, clean indicator variables 
-            	controller.changeButtonBackground(selectedButton);
-            	selectedButton = null;
-            	selectedBackGroundColor = null;
-            }
-            
-            
-
-            
-        }
-
-    }
-    
-
-   
-    
-    /**
-     * Getter for the chess board buttons
-     */
-    public JButton[][] getButtons(){ return chessBoardSquares; }
-    
-    /**
-     * Getter for the menu item restart
-     */
-    public JMenuItem getRestart() { return restart; }
-    
-    /**
-     * Getter for the menu item forfeit
-     */
-    public JMenuItem getForfeit() { return forfeit; }
-    
-    /**
-     * Getter for the menu item undo
-     */
-    public JMenuItem getUndo() { return undo; }
-    
-    /**
-     * Getter for the menu item Show Scores
-     */
-    public JMenuItem getScores() { return scores; }
     
     
     /**
@@ -347,6 +279,77 @@ public class BoardView {
                 chessBoardSquares[i][j].revalidate();
             }
         }
+    }
+    
+    
+    /**
+	 * Creates a new button listener that will take mall
+	 * possible commands that we have programmed.
+	 * @param frame the frame that the actionlistener is anchored to
+	 * @return the actionlistener to take button press input
+	 */
+    public class MenuBarActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+        	JMenuItem item = (JMenuItem) e.getSource();
+            String name = item.getText();
+ 
+            if (name.equals("Restart")) {
+            	controller.restart();
+            }
+            
+            if (name.equals("Forfeit")) {
+            	controller.forfeit();
+            }
+            
+            if (name.equals("Undo")) {
+            	controller.undo();         	
+            }
+            
+            if (name.equals("Show Results")) {
+            	controller.showResults();
+            }
+  
+        }
+    }
+    
+    /**
+     * Called when button is clicked.
+     */
+    public class ButtonActionListener implements ActionListener {
+    	
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // change the color of the button with icon when clicked
+            JButton button = (JButton) e.getSource();
+            int[] loc = controller.getLocation(e.getActionCommand());
+            System.out.println("button " + loc[0] + " , " + loc[1] + " clicked");
+            
+            
+            // if click on a button where no pieces(icons) are placed, cannot do anything
+            if (button.getIcon() == null && selectedButton == null) 
+            	return;
+            // select an unselected piece(button)
+            else if (button.getIcon() != null && selectedButton == null) {
+            	selectedButton = button;
+                movedIcon = button.getIcon();
+            	controller.changeButtonBackground(button);   // wait for next click to move
+            	return;
+            }
+            
+            // move a piece
+            if (selectedButton != null) {
+            	controller.moveAttempt(e); 	
+            	// after a move, clean indicator variables 
+            	controller.changeButtonBackground(selectedButton);
+            	movedButton = selectedButton;
+            	selectedButton = null;
+            	selectedBackGroundColor = null;
+            }
+              
+        }
+
     }
 
  
