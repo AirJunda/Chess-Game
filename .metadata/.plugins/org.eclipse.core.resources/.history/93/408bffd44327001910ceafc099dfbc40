@@ -1,0 +1,44 @@
+package Pieces;
+
+import Game.Board;
+
+//import ChessGame.*;
+
+public class Rook extends Piece{
+	
+	/**
+     * Constructor for Rook.
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public Rook(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.rook;
+	}
+	
+	/**
+     * Getter for piece type
+     * @return return the type of a piece
+     */
+	public Type getType() {
+		return Type.rook;
+	}
+	
+	/**
+     * Check if it is valid to move a rook piece to specified location.
+     * @param nx : the new x location
+     * @param ny : the new y location
+     * @return  whether a path is valid 
+     */
+    public boolean isValidMoveType(Board board, int nx, int ny) {
+    	if (x == nx || y == ny) {
+    		
+    	}
+    	return false;
+    }
+    
+    
+
+
+}

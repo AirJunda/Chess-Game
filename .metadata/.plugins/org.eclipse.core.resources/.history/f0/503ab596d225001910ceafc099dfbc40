@@ -1,0 +1,14 @@
+package Game;
+
+public class Player{
+	
+	public Color playerColor;
+	
+	/**
+     * Constructor for a Player.
+     * @param color: the color of the player
+     */
+	public Player(Color color) {
+		this.playerColor = color;
+	}
+}

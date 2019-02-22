@@ -1,0 +1,19 @@
+package Pieces;
+
+//import ChessGame.*;
+
+public class Bishop extends Piece{
+	
+	/**
+     * Constructor for Bishop.
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public Bishop(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.bishop;
+	}
+
+
+}

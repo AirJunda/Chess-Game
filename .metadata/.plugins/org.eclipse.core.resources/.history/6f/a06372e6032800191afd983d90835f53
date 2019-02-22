@@ -1,0 +1,17 @@
+package Pieces;
+
+public class Pawn extends Piece{
+	
+	/**
+     * Constructor for Pawn.
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public Pawn(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.pawn;
+	}
+
+
+}

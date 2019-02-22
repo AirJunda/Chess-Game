@@ -1,0 +1,17 @@
+package Pieces;
+
+public class Knight extends Piece{
+	
+	/**
+     * Constructor for Knight.
+     * @param x: the x location
+     * @param y: the y location
+     * @param color: the color of the piece
+     */
+	public Knight(int x, int y, Color color) {
+		super(x, y, color);
+		type = Type.knight;
+	}
+
+
+}

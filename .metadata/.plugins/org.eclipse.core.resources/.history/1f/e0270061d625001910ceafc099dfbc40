@@ -1,0 +1,19 @@
+package Pieces;
+
+public abstract class Piece {
+	
+	public int x,y;
+	
+	/**
+     * Constructor for a Piece.
+     * @param x: the x location of the Piece
+     * @param y: the y location of the Piece
+     * @param color: the Player object associated with the Piece
+     */
+	public Piece(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	
+}

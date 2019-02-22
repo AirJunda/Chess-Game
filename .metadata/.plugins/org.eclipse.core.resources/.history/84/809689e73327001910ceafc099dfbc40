@@ -1,0 +1,121 @@
+package Game;
+
+import Pieces.*;
+
+public class Board{
+	
+	public int height, width;
+	public Piece[][] board;
+	
+	/**
+     * Constructor for a Board.
+     * @param height: the height of the board
+     * @param width: the width of the board
+     * @param color: the Player object associated with the Piece
+     */
+	public Board(int height, int width) {
+		this.height = height;
+		this.width = width;
+		board = new Piece[height][width];
+		
+	}
+
+	/**
+     * Getter for board
+     * @return the board configuration
+     */
+    public Piece[][] getBoard() {
+        return board;
+    }
+   
+    /**
+     * Get board height
+     * @return height
+     */
+    public int getHeight(){
+        return height;
+    }
+    
+    /**
+     * Get board width
+     *@return width
+     */
+    public int getWidth(){
+        return width;
+    }
+
+    /**
+     * Set board height
+     * @param height
+     */
+    public void setHeight(int height){
+        this.height = height;
+    }
+    
+    /**
+     * Set board width
+     * @param width
+     */
+    public void setWidth(int width){
+        this.width = width;
+    }
+    
+    /**
+     * Return the piece at specified location on the board
+     * @param x: x location
+     * @param y: y location
+     * @return piece
+     */
+    public Piece getPiece(int x, int y){
+        return board[x][y];
+    }
+    
+    /**
+     * Remove the piece at specified location on the board
+     * @param x: x location
+     * @param y: y location
+     */
+    public void removePiece(int x, int y){
+        board[x][y] = null;
+    }
+
+    /**
+     * Set a piece at specified location on the board
+     * @param nPiece: newPiece
+     * @param x: x location
+     * @param y: y location
+     */
+    public void setPiece(Piece nPiece, int x, int y){
+        if(!isOccupied(x, y)){
+            board[x][y] = nPiece;
+        }
+    }
+    
+    /**
+     * Check if a piece occupied at specified location on the board
+     * @param x: x location
+     * @param y: y location
+     * @return boolean indicating whether occupied or not
+     */
+    public boolean isOccupied(int x, int y){
+        if(getPiece(x, y) != null){
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Replace a piece to a new specified location
+     * @param piece: replacing piece 
+     * @param x: x location
+     * @param y: y location
+     */
+    public void replacePiece(Piece piece, int nx, int ny){
+    	if (!isOccupied(nx, ny)){
+    		board[nx][ny] = getPiece(piece.x, piece.y);
+    	}
+    }
+ 
+}
+
+

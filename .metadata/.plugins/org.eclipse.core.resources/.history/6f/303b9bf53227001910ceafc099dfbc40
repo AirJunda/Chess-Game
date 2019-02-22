@@ -1,0 +1,85 @@
+package Pieces;
+
+import Board.*;
+
+public abstract class Piece {
+	
+	public enum Color{
+        white, black
+    }
+    public enum Type{
+        rook, bishop, knight, king, queen, pawn
+    }
+    
+    public int x,y;
+    public Color color;
+    public Type type;
+	
+	/**
+     * Constructor for a Piece.
+     * @param x: the x location of the Piece
+     * @param y: the y location of the Piece
+     * @param color: the color associated with the Piece
+     */
+	public Piece(int x, int y, Color color){
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
+
+    /**
+     * Copy constructor of a piece 
+     * @param 
+     */
+     public Piece(Piece p) {
+    	 System.out.println("piece copying");
+    	 this.x = p.x;
+    	 this.y = p.y;
+         this.color = p.color;
+     }
+     
+     /**
+      * Getter for piece color
+      * @return return the color of a piece
+      */
+     public Color getColor() {
+         return color;
+     }
+
+     /**
+      * Setter for piece color
+      * @param color: one of two colors: (black, white)
+      */
+     public void setColor(Color color) {
+         this.color = color;
+     }
+     
+     /**
+      * Getter for piece type
+      * @return return the type of a piece
+      */
+     public Type getType() {
+         return type;
+     }
+
+     /**
+      * Setter for piece type 
+      * @param type: one of six types: (rook, bishop, knight, king, queen, pawn)
+      */
+     public void setType(Type type) {
+         this.type = type;
+     }
+     
+     /**
+      * Check if a path is valid based on Piece type.
+      * @param xdest: the x destination
+      * @param ydest: the y destination
+      * @return  whether a path is valid 
+      */
+     public abstract boolean isValidMove(Board board, int xdest, int ydest);
+     
+     
+
+	
+	
+}

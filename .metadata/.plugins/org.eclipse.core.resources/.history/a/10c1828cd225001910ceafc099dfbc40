@@ -1,0 +1,23 @@
+package Game;
+
+import Pieces.*;
+
+public class ChessGame{
+	
+	//public enum Player{
+    //    player_white, player_black
+    //}
+	final static int height = 8, width = 8;
+	public Board board;
+	public Player playerWhite, playerBlack;
+	
+	/**
+     * Constructor for a chess game
+     * @param height: the height of the board
+     * @param width: the width of the board
+     * @return return the ChessGame object
+     */
+	public chessGame(int height, int width) {
+		
+	}
+}
