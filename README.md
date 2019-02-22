@@ -1,2 +1,2 @@
-# sp-19-cs242-assignment1
+# A Java Application of Chess Game
 
